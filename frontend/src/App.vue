@@ -147,7 +147,7 @@ const addTodo = async () => {
 
     todos.value.unshift(response.data)
     newTodo.value = ''
-    
+
     showNotification('Todo added successfully')
   } catch (error) {
     console.error('Error details:', error)
@@ -189,7 +189,7 @@ const onDragEnd = async () => {
       id: todo.id,
       order: index
     }))
-    
+
     await axios.post(`${API_URL}reorder/`, reorderedTodos)
     showNotification('Todos reordered successfully')
   } catch (error) {

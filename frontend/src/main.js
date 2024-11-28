@@ -1,19 +1,19 @@
-import { createApp } from 'vue'
-import { Quasar, Notify } from 'quasar'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { Quasar, Notify } from 'quasar';
+import App from './App.vue';
 
 // Import icon libraries
-import '@quasar/extras/material-icons/material-icons.css'
-import '@quasar/extras/material-icons-outlined/material-icons-outlined.css'
+import '@quasar/extras/material-icons/material-icons.css';
+import '@quasar/extras/material-icons-outlined/material-icons-outlined.css';
 
 // Import Quasar css
-import 'quasar/dist/quasar.css'
+import 'quasar/dist/quasar.css';
 
-const app = createApp(App)
+const app = createApp(App);
 
 app.use(Quasar, {
   plugins: {
-    Notify
+    Notify,
   },
   config: {
     brand: {
@@ -24,15 +24,15 @@ app.use(Quasar, {
       positive: '#21BA45',
       negative: '#C10015',
       info: '#31CCEC',
-      warning: '#F2C037'
+      warning: '#F2C037',
     },
     notify: {
       position: 'top-right',
       timeout: 2500,
       textColor: 'white',
-      color: 'primary'
-    }
-  }
-})
+      color: 'primary',
+    },
+  },
+});
 
-app.mount('#app')
+app.mount('#app');

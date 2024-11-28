@@ -1,13 +1,13 @@
-import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue'
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import { defineConfig } from 'vitest/config';
+import vue from '@vitejs/plugin-vue';
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
 
 export default defineConfig({
   plugins: [
     vue({
-      template: { transformAssetUrls }
+      template: { transformAssetUrls },
     }),
-    quasar()
+    quasar(),
   ],
   test: {
     globals: true,
@@ -17,4 +17,4 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
     },
   },
-})
+});

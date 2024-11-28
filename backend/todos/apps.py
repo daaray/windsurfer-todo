@@ -1,7 +1,10 @@
+"""Configuration for the Todo application."""
+
 from django.apps import AppConfig
 
 
 class TodosConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'todos'
-    app_label = 'todos'
+    """Configuration class for the Todo application."""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "todos"

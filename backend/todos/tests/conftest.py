@@ -1,42 +1,25 @@
+"""Fixtures for Todo app tests."""
+
 import pytest
 from rest_framework.test import APIClient
-from django.core.management import call_command
-from todos.models import Todo
 
-@pytest.fixture(autouse=True)
-def setup_database():
-    """Set up the test database with migrations before each test"""
-    call_command('migrate')
-    yield
-    call_command('flush', '--no-input')
+from ..models import Todo
+
 
 @pytest.fixture
 def api_client():
-    """Create a test API client"""
+    """Create and return an API client for testing."""
     return APIClient()
 
-@pytest.fixture
-def todo_data():
-    """Create test todo data"""
-    return {
-        'title': 'Test Todo',
-        'completed': False
-    }
 
 @pytest.fixture
-def sample_todo():
-    """Create and return a sample todo"""
-    return Todo.objects.create(
-        title="Sample Todo",
-        completed=False,
-        order=1
-    )
+def todo_factory(db):
+    """Create a factory function for Todo instances."""
 
-@pytest.fixture
-def multiple_todos():
-    """Create and return multiple todos"""
-    todos = [
-        Todo.objects.create(title=f"Todo {i}", order=i)
-        for i in range(1, 4)
-    ]
-    return todos
+    def create_todo(**kwargs):
+        """Create and return a Todo instance with given kwargs."""
+        defaults = {"title": "Test Todo", "completed": False, "order": 0}
+        defaults.update(kwargs)
+        return Todo.objects.create(**defaults)
+
+    return create_todo
