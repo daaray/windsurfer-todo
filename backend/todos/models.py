@@ -13,4 +13,5 @@ class Todo(models.Model):
         return self.title
 
     class Meta:
+        app_label = 'todos'
         ordering = ['order', '-created_at']

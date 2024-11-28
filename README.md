@@ -11,6 +11,7 @@ A modern Todo List application built with Django REST Framework backend and Vue.
 - 🎨 Modern UI with Quasar Framework
 - 🔔 Toast notifications for actions
 - 📱 Responsive design
+- 🧪 Comprehensive test suite
 
 ## Prerequisites
 
@@ -67,6 +68,74 @@ Note: The backend uses local settings by default (`backend/settings/local.py`), 
 
 The frontend application will be available at `http://localhost:5173`
 
+## Testing
+
+### Backend Tests
+
+The backend uses pytest for testing. The test suite includes:
+- Model tests for Todo model
+- API endpoint tests for CRUD operations
+- Integration tests for todo reordering
+
+To run the tests:
+
+1. Ensure you're in the backend directory with your virtual environment activated:
+   ```bash
+   cd backend
+   source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
+   ```
+
+2. Run the test suite:
+   ```bash
+   pytest
+   ```
+
+For more detailed test output:
+   ```bash
+   pytest -v
+   ```
+
+To run tests with coverage report:
+   ```bash
+   pytest --cov=todos
+   ```
+
+### Frontend Tests
+
+The frontend uses Vitest for testing. The test suite includes:
+- Unit tests for the `useTodos` composable
+  - API interaction tests
+  - State management tests
+  - Error handling tests
+- Component tests for `TodoList`
+  - Todo creation
+  - Todo completion
+  - Todo deletion
+  - Todo reordering
+  - UI interaction tests
+
+To run the tests:
+
+1. Ensure you're in the frontend directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Run the test suite:
+   ```bash
+   npm run test
+   ```
+
+For watch mode during development:
+   ```bash
+   npm run test:watch
+   ```
+
+The frontend tests use Vue Test Utils for component testing and include mocks for:
+- Quasar components (QInput, QCheckbox, QBtn, etc.)
+- Vue Draggable component
+- API calls via Axios
+
 ## Project Structure
 
 ```
@@ -77,6 +146,9 @@ todo_app/
 │   │   │   ├── base.py   # Base settings
 │   │   │   └── local.py  # Local development settings
 │   ├── todos/             # Todos app
+│   │   ├── tests/        # Test suite
+│   │   │   ├── test_models.py
+│   │   │   └── test_views.py
 │   ├── manage.py
 │   └── requirements.txt
 │
@@ -85,6 +157,7 @@ todo_app/
     │   ├── App.vue        # Main application component
     │   ├── main.js        # Application entry point
     │   └── styles/        # Global styles
+    ├── tests/             # Frontend tests
     ├── package.json
     └── vite.config.js
 ```

@@ -30,6 +30,14 @@ class TodoViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        # Validate each item has required fields
+        for item in reorder_data:
+            if not isinstance(item, dict) or 'id' not in item or 'order' not in item:
+                return Response(
+                    {"error": "Each item must have id and order"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
         # Update orders
         for item in reorder_data:
             try:
@@ -40,11 +48,6 @@ class TodoViewSet(viewsets.ModelViewSet):
                 return Response(
                     {"error": f"Todo with id {item['id']} not found"},
                     status=status.HTTP_404_NOT_FOUND
-                )
-            except KeyError:
-                return Response(
-                    {"error": "Each item must have id and order"},
-                    status=status.HTTP_400_BAD_REQUEST
                 )
 
         return Response(status=status.HTTP_200_OK)
