@@ -20,16 +20,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
 
-      - name: Setup virtual environment
+      - name: Setup virtual environment and install dependencies
         run: |
           uv venv
           source .venv/bin/activate
-
-      - name: Install dependencies
-        run: |
           uv pip install -e '.[dev]'
 
       - name: Format and lint code with Ruff
         run: |
+          source .venv/bin/activate
           ruff format .
           ruff check .
