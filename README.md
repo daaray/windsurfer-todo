@@ -18,21 +18,29 @@ A modern Todo List application built with Django REST Framework backend and Vue.
 Before you begin, ensure you have the following installed:
 - Python 3.8+
 - Node.js 16+
-- pip (Python package manager)
-- npm (Node.js package manager)
+- uv (Python package installer)
+
+To install uv:
+```bash
+pip install uv
+```
 
 ## Backend Setup
 
 1. Create and activate a virtual environment:
    ```bash
    cd backend
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
+   uv venv
+   source .venv/bin/activate  # On Windows use: .\.venv\Scripts\activate
    ```
 
 2. Install Python dependencies:
    ```bash
-   pip install -r requirements.txt
+   # Install project dependencies
+   uv pip install -e .
+
+   # Install test dependencies (optional)
+   uv pip install -e '.[test]'
    ```
 
 3. Apply database migrations:
@@ -82,7 +90,7 @@ To run the tests:
 1. Ensure you're in the backend directory with your virtual environment activated:
    ```bash
    cd backend
-   source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
+   source .venv/bin/activate  # On Windows use: .\.venv\Scripts\activate
    ```
 
 2. Run the test suite:
@@ -171,6 +179,25 @@ todo_app/
 - `POST /api/todos/reorder/` - Reorder todos
 
 ## Development
+
+### Code Style and Linting
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for both code formatting and linting. Ruff is configured in `pyproject.toml`.
+
+To install development dependencies:
+```bash
+uv pip install -e '.[dev]'
+```
+
+To format code:
+```bash
+ruff format .
+```
+
+To lint and auto-fix issues:
+```bash
+ruff check . --fix
+```
 
 ### Backend Development
 
