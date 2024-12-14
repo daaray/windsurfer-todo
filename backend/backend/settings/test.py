@@ -1,13 +1,16 @@
 """Test settings configuration for Django application."""
 
-from .settings.base import *  # noqa: F403, F401
+import os
 
-# Use in-memory SQLite database for testing
+import dj_database_url
+
+from .base import *  # noqa: F403, F401
+
+# Use PostgreSQL for testing
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/todos_test")
+    )
 }
 
 # Disable password hashing to speed up tests
