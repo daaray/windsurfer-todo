@@ -30,6 +30,7 @@ packages = ["backend", "todos"]
 [tool.ruff]
 target-version = "py311"
 line-length = 100
+exclude = ["**/migrations/**"]
 
 [tool.ruff.lint]
 select = [
