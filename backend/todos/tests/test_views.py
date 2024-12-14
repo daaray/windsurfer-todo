@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from ..models import Todo
-from .factories import TodoFactory
 
 
 @pytest.mark.django_db
@@ -18,28 +17,25 @@ class TestTodoViewSet:
         """Return an API client for testing."""
         return APIClient()
 
-    @pytest.fixture
-    def todo_data(self):
-        """Return test todo data."""
-        return {"title": "Test Todo", "completed": False}
-
-    def test_list_todos(self, api_client):
+    def test_list_todos(self, api_client, todo_factory):
         """Test listing todos returns expected data."""
-        TodoFactory.create_batch(3)
+        for _ in range(3):
+            todo_factory()
         response = api_client.get(reverse("todo-list"))
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data) == 3
 
-    def test_create_todo(self, api_client, todo_data):
+    def test_create_todo(self, api_client):
         """Test creating a new todo."""
-        response = api_client.post(reverse("todo-list"), todo_data)
+        data = {"title": "Test Todo", "completed": False}
+        response = api_client.post(reverse("todo-list"), data)
         assert response.status_code == status.HTTP_201_CREATED
         assert Todo.objects.count() == 1
         assert Todo.objects.first().title == "Test Todo"
 
-    def test_update_todo(self, api_client):
+    def test_update_todo(self, api_client, todo_factory):
         """Test updating a todo's title and completion status."""
-        todo = TodoFactory()
+        todo = todo_factory()
         data = {"title": "Updated Todo", "completed": True}
         response = api_client.put(reverse("todo-detail", args=[todo.id]), data)
         assert response.status_code == status.HTTP_200_OK
@@ -47,16 +43,16 @@ class TestTodoViewSet:
         assert todo.title == "Updated Todo"
         assert todo.completed is True
 
-    def test_delete_todo(self, api_client):
+    def test_delete_todo(self, api_client, todo_factory):
         """Test deleting a todo removes it from database."""
-        todo = TodoFactory()
+        todo = todo_factory()
         response = api_client.delete(reverse("todo-detail", args=[todo.id]))
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not Todo.objects.filter(id=todo.id).exists()
 
-    def test_reorder_todos(self, api_client):
+    def test_reorder_todos(self, api_client, todo_factory):
         """Test reordering todos updates their order field correctly."""
-        todos = TodoFactory.create_batch(3)
+        todos = [todo_factory() for _ in range(3)]
         data = [
             {"id": todos[0].id, "order": 2},
             {"id": todos[1].id, "order": 0},
