@@ -1,8 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "todo-backend"
 version = "0.1.0"
 description = "Backend for Todo application"
 authors = []
+requires-python = ">=3.11"
 dependencies = [
     "Django>=5.0",
     "djangorestframework>=3.14.0",
@@ -17,6 +22,9 @@ dev = [
     "pytest>=7.4.3",
     "pytest-django>=4.7.0",
 ]
+
+[tool.setuptools]
+packages = ["backend", "todos"]
 
 [tool.ruff]
 target-version = "py311"
