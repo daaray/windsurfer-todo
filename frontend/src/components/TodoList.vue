@@ -9,29 +9,13 @@
       @keyup.enter="addNewTodo"
     >
       <template v-slot:append>
-        <q-btn
-          round
-          dense
-          flat
-          icon="add"
-          @click="addNewTodo"
-        />
+        <q-btn round dense flat icon="add" @click="addNewTodo" />
       </template>
     </q-input>
 
-    <draggable
-      v-model="sortableTodos"
-      item-key="id"
-      handle=".drag-handle"
-      @end="onDragEnd"
-    >
+    <draggable v-model="sortableTodos" item-key="id" handle=".drag-handle" @end="onDragEnd">
       <template #item="{ element: todo }">
-        <q-item
-          v-ripple
-          class="todo-item q-mb-sm"
-          :class="{ 'done': todo.completed }"
-          bordered
-        >
+        <q-item v-ripple class="todo-item q-mb-sm" :class="{ done: todo.completed }" bordered>
           <q-item-section avatar>
             <q-checkbox
               v-model="todo.completed"
@@ -48,13 +32,7 @@
 
           <q-item-section side>
             <div class="row items-center">
-              <q-btn
-                flat
-                round
-                dense
-                icon="drag_indicator"
-                class="drag-handle"
-              />
+              <q-btn flat round dense icon="drag_indicator" class="drag-handle" />
               <q-btn
                 flat
                 round
@@ -73,48 +51,48 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useTodos } from '../composables/useTodos'
-import draggable from 'vuedraggable'
+import { ref, computed } from 'vue';
+import { useTodos } from '../composables/useTodos';
+import draggable from 'vuedraggable';
 
-const { todos, fetchTodos, addTodo, toggleTodo, deleteTodo, reorderTodos } = useTodos()
+const { todos, fetchTodos, addTodo, toggleTodo, deleteTodo, reorderTodos } = useTodos();
 
-const newTodo = ref('')
+const newTodo = ref('');
 const sortableTodos = computed({
   get: () => todos.value,
   set: (value) => {
-    todos.value = value
-  }
-})
+    todos.value = value;
+  },
+});
 
 // Fetch todos when component is mounted
-fetchTodos()
+fetchTodos();
 
 const addNewTodo = async () => {
   if (newTodo.value.trim()) {
-    await addTodo(newTodo.value.trim())
-    newTodo.value = ''
+    await addTodo(newTodo.value.trim());
+    newTodo.value = '';
   }
-}
+};
 
 const toggleTodoComplete = async (todo) => {
-  await toggleTodo(todo)
-}
+  await toggleTodo(todo);
+};
 
 const deleteTodoItem = async (todo) => {
-  await deleteTodo(todo)
-}
+  await deleteTodo(todo);
+};
 
 const onDragEnd = async ({ oldIndex, newIndex }) => {
-  if (oldIndex === newIndex) return
+  if (oldIndex === newIndex) return;
 
   const newOrder = todos.value.map((todo, index) => ({
     id: todo.id,
-    order: index + 1
-  }))
+    order: index + 1,
+  }));
 
-  await reorderTodos(newOrder)
-}
+  await reorderTodos(newOrder);
+};
 </script>
 
 <style scoped>

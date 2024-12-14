@@ -9,30 +9,23 @@
       @keyup.enter="handleSubmit"
     >
       <template v-slot:append>
-        <q-btn
-          round
-          dense
-          flat
-          icon="add"
-          type="submit"
-          :disable="!newTodo.trim()"
-        />
+        <q-btn round dense flat icon="add" type="submit" :disable="!newTodo.trim()" />
       </template>
     </q-input>
   </form>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const newTodo = ref('')
-const emit = defineEmits(['add-todo'])
+const newTodo = ref('');
+const emit = defineEmits(['add-todo']);
 
 const handleSubmit = () => {
-  const todoText = newTodo.value.trim()
+  const todoText = newTodo.value.trim();
   if (todoText) {
-    emit('add-todo', todoText)
-    newTodo.value = ''
+    emit('add-todo', todoText);
+    newTodo.value = '';
   }
-}
+};
 </script>
